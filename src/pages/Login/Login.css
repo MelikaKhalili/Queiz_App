@@ -1,0 +1,8 @@
+.text-stroke-green {
+  -webkit-text-stroke: 2px green;
+  text-stroke: 1px green;
+}
+.my-confirm-button {
+  width: 150px;
+  height: 40px;
+}

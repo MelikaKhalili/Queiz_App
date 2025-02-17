@@ -1,0 +1,6 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* .backGround {
+  background-image: url("/src/assets/svgs/BackgroundQueizApp.svg");
+} */
