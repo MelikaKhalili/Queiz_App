@@ -1,0 +1,20 @@
+/* @keyframes wave {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  20% {
+    transform: translateY(-5px);
+  }
+}
+
+.wavy {
+  display: inline-block;
+  animation: wave 0.5s ease-in-out infinite alternate;
+} */
+.bg-cloud-pattern {
+  background: linear-gradient(to top, #d0e8f2, #ffffff);
+  background-size: cover;
+  border-radius: 16px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
