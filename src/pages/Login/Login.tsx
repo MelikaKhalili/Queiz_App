@@ -10,10 +10,10 @@ import { ThemeContext } from "../../components/DarkProvider/DarkProvider";
 import ModalProvider, {
   MyContext,
 } from "../../components/ModalProvider/ModalProvider";
-import BackGround from "../../components/base/BackGround/BackGround";
-import BackGroundTheme from "../../components/base/BackGroundTheme/BackGroundTheme";
+
 import GreenWaveBackGround from "../../components/base/greenWaveBackGround/greenWaveBackGround";
 import "./Login.css";
+
 export default function Login() {
   return (
     <ModalProvider>
@@ -24,12 +24,12 @@ export default function Login() {
 
 function LoginContent() {
   const { setOpenModal } = useContext<any>(MyContext);
-  const { isDarkMode, setIsDarkMode } = useContext<any>(ThemeContext);
+  const { isLightMode, setIsLightMode } = useContext<any>(ThemeContext);
   //DarkState
   const handelDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
+    setIsLightMode(!isLightMode);
   };
-
+  console.log(isLightMode);
   const navigate = useNavigate();
   const handelOpenModal = () => {
     setOpenModal(true);
@@ -56,75 +56,63 @@ function LoginContent() {
   };
 
   return (
-    <>
-      <div className="relative min-h-[100vh]">
-        <div className="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-0"></div>
-        <GreenWaveBackGround className="flex justify-center items-center w-full h-screen" />
-
-        {isDarkMode ? (
-          <BackGroundTheme className="absolute z-10 w-[60%] h-[70%] object-cover top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex justify-center border-4 border-white rounded-2xl">
-            <div className="flex justify-center items-center flex-col gap-20 py-6">
-              <h1 className="text-black text-[40px] font-bold  text-stroke-green">
-                QUIZLY
-              </h1>
-              <h2 className="text-black font-bold text-[70px] text-stroke-green     [text-shadow:_0_4px_4px_rgb(99_102_241_/_0.8)] leading-2 ">
-                Welcome To Quiz App
-              </h2>
-              <div className="flex flex-col justify-center items-center gap-4 absolute bottom-[-130px]">
-                <img className="w-14" src={Spaceship} alt="Spaceship_Gif" />
-                <Button
-                  onClick={handelOpenModal}
-                  color={"green.900"}
-                  bg={"#B5f99C"}
-                  variant={"outline"}
-                  size={"lg"}
-                >
-                  <p className="text-xl font-bold"> GET START</p> 🚀
-                </Button>
-              </div>
+    <div
+      className={
+        "dark w-screen h-screen overflow-hidden flex justify-center items-center "
+      }
+    >
+      <div className="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-0 "></div>
+      <GreenWaveBackGround className="flex  justify-center items-center w-screen" />
+      <div
+        className={`absolute z-10 w-[60%] h-[70%] rounded-2xl border-4 border-white ${
+          isLightMode ? "bg-green-300" : "Background"
+        }`}
+      >
+        <div className="flex justify-center items-center flex-col gap-20 py-6">
+          <h1
+            className={` text-[40px] font-bold  text-stroke-green ${
+              isLightMode ? "text-black" : "text-white"
+            }`}
+          >
+            QUIZLY
+          </h1>
+          <h2
+            className={` font-bold text-[50px] text-stroke-green  leading-2 ${
+              isLightMode ? "text-black" : "text-white"
+            }`}
+          >
+            Welcome To Quiz App...
+          </h2>
+          <div className="flex flex-col justify-center items-center absolute bottom-4">
+            <div className="mb-6">
+              <img className="w-14" src={Spaceship} alt="Spaceship_Gif" />
             </div>
-            <div
-              onClick={handelDarkMode}
-              className="bg-green-400 w-[43px] h-[43px] rounded-[100%] absolute top-8 right-[-20px]"
+            <Button
+              onClick={handelOpenModal}
+              color={"green.200"}
+              bg={`${isLightMode ? "green.400" : "green.900"}`}
+              borderColor={`${isLightMode ? "green.400" : "green.200"}`}
+              border={"4px"}
+              variant={"outline"}
+              size={"lg"}
             >
-              <div className="absolute translate-x-[50%] translate-y-[50%]">
-                <img src={IconDarkMode} alt="IconDarkMode" />
-              </div>
-            </div>
-          </BackGroundTheme>
-        ) : (
-          <BackGround className="absolute z-10 w-[60%] h-[70%] object-cover top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex justify-center border-4 border-white rounded-2xl">
-            <div className="flex justify-center items-center flex-col gap-20 py-6">
-              <h1 className="text-white text-[40px] font-bold shadow text-stroke-green">
-                QUIZLY
-              </h1>
-              <h2 className="text-white font-bold text-[70px] text-stroke-green">
-                Welcome To Quiz App
-              </h2>
-              <div className="flex flex-col justify-center items-center gap-4 absolute bottom-[-130px]">
-                <img className="w-14" src={Spaceship} alt="Spaceship_Gif" />
-                <Button
-                  onClick={handelOpenModal}
-                  color={"green.900"}
-                  bg={"#B5f99C"}
-                  variant={"outline"}
-                  size={"lg"}
-                >
-                  <p className="text-xl font-bold"> GET START</p> 🚀
-                </Button>
-              </div>
-            </div>
-            <div
-              onClick={handelDarkMode}
-              className="bg-green-700 w-[43px] h-[43px] rounded-[100%] absolute top-8 right-[-20px]"
-            >
-              <div className="absolute translate-x-[50%] translate-y-[50%]">
-                <img src={IconDarkMode} alt="IconDarkMode" />
-              </div>
-            </div>
-          </BackGround>
-        )}
+              <p className="text-xl font-bold"> GET START</p> 🚀
+            </Button>
+          </div>
+        </div>
+        <button
+          onClick={handelDarkMode}
+          className={`w-[43px] h-[43px] rounded-[100%] absolute top-8 right-8 ${
+            isLightMode ? " bg-green-900" : "bg-green-400"
+          }`}
+        >
+          <img
+            className="translate-x-[50%]"
+            src={IconDarkMode}
+            alt="IconDarkMode"
+          />
+        </button>
       </div>
-    </>
+    </div>
   );
 }

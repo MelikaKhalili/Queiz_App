@@ -34,3 +34,32 @@
   justify-content: center;
   align-items: center;
 }
+select {
+  direction: ltr;
+}
+select::-webkit-scrollbar {
+  width: 8px;
+}
+select::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+select::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+select::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+.Background {
+  background-image: url("../../assets/svgs/BackgroundQueizApp.svg");
+  background-size: cover;
+  background-position: center;
+}
+html,
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  height: 100%;
+  width: 100%;
+}

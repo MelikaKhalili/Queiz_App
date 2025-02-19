@@ -1,0 +1,14 @@
+* {
+  padding: 0px;
+  margin: 0px;
+  box-sizing: border-box;
+}
+.back {
+  background-image: url("../../assets/svgs/BackGroundBlur.svg") !important;
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 3rem;
+  left: 4rem;
+}

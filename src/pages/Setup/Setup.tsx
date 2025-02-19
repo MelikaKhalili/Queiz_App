@@ -1,24 +1,37 @@
 import { Input, Select } from "@chakra-ui/react";
-import { useContext, useState } from "react";
+import { motion } from "motion/react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 import IconStart from "../../assets/images/IconStart.png";
 import IconDarkMode from "../../assets/svgs/IconDarkMode.svg";
+import GreenWaveBackGround from "../../components/base/greenWaveBackGround/greenWaveBackGround";
 import { ThemeContext } from "../../components/DarkProvider/DarkProvider";
 import { MyContext } from "../../components/ModalProvider/ModalProvider";
-import BackGround from "../../components/base/BackGround/BackGround";
-import BackGroundTheme from "../../components/base/BackGroundTheme/BackGroundTheme";
-import GreenWaveBackGround from "../../components/base/greenWaveBackGround/greenWaveBackGround";
+import { GetCategory } from "../../services/getDataSetup";
 import "./Setup.css";
+
 export default function Setup() {
   //States:
-  const [Count, setCount] = useState<number | string>("");
-  const { isDarkMode, setIsDarkMode } = useContext<any>(ThemeContext);
+  const { isLightMode, setIsLightMode } = useContext<any>(ThemeContext);
   const { setOpenModal } = useContext<any>(MyContext);
   const navigate = useNavigate();
-
+  const [countQueiz, setCountQueiz] = useState("");
+  const [categories, setcategories] = useState<any>([]);
+  const [difficulty, setDifficulty] = useState(["Easy", "Medium", "Hard"]);
+  const [selectDifficulty, setSelectDifficulty] = useState("");
+  const [selectCategories, setSelectCategories] = useState<string>("");
+  console.log(countQueiz);
+  useEffect(() => {
+    GetCategory().then((res) => setcategories(res));
+  }, []);
   const handelDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
+    setIsLightMode(!isLightMode);
+  };
+  const queizSettings = {
+    numberOfQueizs: parseInt(countQueiz),
+    category: selectCategories,
+    difficulty: selectDifficulty,
   };
   const handelOpenModal = (e: any) => {
     setOpenModal(true);
@@ -30,18 +43,35 @@ export default function Setup() {
       color: "white",
       timer: 2000,
     }).then(() => {
-      navigate("/questions");
+      navigate("/questions", { state: { queizSettings } });
+      console.log(queizSettings);
     });
   };
-  return (
-    <div className="relative min-h-[100vh]">
-      <div className="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-0"></div>
-      <GreenWaveBackGround className="flex justify-center items-center w-full h-screen" />
 
-      {isDarkMode ? (
-        <BackGroundTheme className="absolute z-10 w-[60%] h-[70%] object-cover top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex justify-center border-4 border-white rounded-2xl">
+  return (
+    <div
+      className={
+        "dark w-screen h-screen overflow-hidden  flex justify-center items-center"
+      }
+    >
+      <div className="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-0"></div>
+      <GreenWaveBackGround className="flex justify-center items-center w-screen" />
+      (
+      <motion.div
+        initial={{ rotateX: 90, rotateY: 180, scale: 0 }}
+        animate={{ rotateX: 0, rotateY: 0, scale: 1 }}
+        transition={{ duration: 1.5, ease: "easeInOut" }}
+        className={`absolute z-10 w-[60%] h-[70%] rounded-2xl border-4 border-white ${
+          isLightMode ? "bg-green-300" : "Background"
+        }`}
+      >
+        <div>
           <div className="flex justify-center items-center flex-col gap-1 ">
-            <h1 className="text-white text-[40px] font-bold  text-stroke-green">
+            <h1
+              className={` text-[40px] font-bold  text-stroke-green ${
+                isLightMode ? "text-white" : "text-black"
+              }`}
+            >
               QUIZLY
             </h1>
             <p className="text-green-900 font-bold rounded-lg w-24 h-8 flex justify-center items-center wavy bg-cloud-pattern">
@@ -49,182 +79,115 @@ export default function Setup() {
             </p>
           </div>
           <div className="py-4">
-            <form className="flex flex-col gap-2 backgroundBlur">
-              <div className="flex flex-col gap-2">
-                <label
-                  className="text-lg font-mono text-green-950"
-                  htmlFor="numberInput"
-                >
-                  Number Of Question:
-                </label>
-                <Input
-                  value={Count}
-                  onChange={(e) => setCount(e.target.value)}
-                  id="numberInput"
-                  type="number"
-                  placeholder="Choose your number of questions"
-                  _placeholder={{ color: "green" }}
-                  width={"96"}
-                  height={"35px"}
-                  border={"2px solid #006400"}
-                  color={"green"}
-                  _hover={{ borderColor: "2px solid #006400" }}
-                  _focus={{ borderColor: "green.500", borderWidth: "3px" }}
-                />
-              </div>
-              <div className="flex flex-col gap-2">
-                <label
-                  htmlFor="CategorySelected"
-                  className="text-lg font-mono text-green-950"
-                >
-                  Category
-                </label>
-                <Select
-                  id="CategorySelected"
-                  width={"96"}
-                  height={"35px"}
-                  border={"2px solid #006400"}
-                  _hover={{ borderColor: "2px solid #006400" }}
-                  _focus={{ borderColor: "green.500", borderWidth: "3px" }}
-                >
-                  <option value=""></option>
-                  <option value=""></option>
-                  <option value=""></option>
-                </Select>
-              </div>
-              <div className="flex flex-col gap-2">
-                <label
-                  htmlFor="DifficultySelected"
-                  className="text-lg font-mono text-green-950"
-                >
-                  Difficulty
-                </label>
-                <Select
-                  id="CategorySelected"
-                  width={"96"}
-                  height={"35px"}
-                  border={"2px solid #006400"}
-                  _hover={{ borderColor: "2px solid #006400" }}
-                  _focus={{ borderColor: "green.500", borderWidth: "3px" }}
-                >
-                  <option value=""></option>
-                  <option value=""></option>
-                  <option value=""></option>
-                </Select>
-              </div>
-              <button
-                onClick={(e) => handelOpenModal(e)}
-                className="relative translate-x-[50%] translate-y-8"
-              >
-                <div className="bg-green-500 w-11 h-11 rounded-full flex justify-center items-center absolute ">
-                  <img className="w-6 h-6" src={IconStart} alt="IconStart" />
+            <motion.div
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              drag
+              dragConstraints={{ left: -50, right: 50 }}
+            >
+              <form className="flex flex-col gap-2 backgroundBlur">
+                <div className="flex flex-col gap-2">
+                  <label
+                    className="text-lg font-mono text-green-950"
+                    htmlFor="numberInput"
+                  >
+                    Number Of Question:
+                  </label>
+                  <Input
+                    value={countQueiz}
+                    onChange={(e) => setCountQueiz(e.target.value)}
+                    id="numberInput"
+                    type="number"
+                    placeholder="Choose your number of questions"
+                    _placeholder={{ color: "green" }}
+                    width={"96"}
+                    height={"35px"}
+                    border={"2px solid #006400"}
+                    color={"green"}
+                    _hover={{ borderColor: "2px solid #006400" }}
+                    _focus={{ borderColor: "green.500", borderWidth: "3px" }}
+                  />
                 </div>
-              </button>
-            </form>
-            <div
-              onClick={handelDarkMode}
-              className="bg-green-700 w-[43px] h-[43px] rounded-full fixed top-8 right-8"
+                <div className="flex flex-col gap-2">
+                  <label
+                    htmlFor="CategorySelected"
+                    className="text-lg font-mono text-green-950"
+                  >
+                    Category
+                  </label>
+                  <Select
+                    value={selectCategories}
+                    onChange={(e) => setSelectCategories(e.target.value)}
+                    placeholder="Select a Category"
+                    id="CategorySelected"
+                    width={"96"}
+                    height={"35px"}
+                    border={"2px solid #006400"}
+                    _hover={{ borderColor: "2px solid #006400" }}
+                    _focus={{ borderColor: "green.500", borderWidth: "3px" }}
+                    style={{ marginBottom: "0px" }}
+                  >
+                    {categories.map((categorie: any) => (
+                      <option key={categorie.id}>{categorie.name}</option>
+                    ))}
+                  </Select>
+                </div>
+                <div className="flex flex-col gap-2">
+                  <label
+                    htmlFor="DifficultySelected"
+                    className="text-lg font-mono text-green-950"
+                  >
+                    Difficulty
+                  </label>
+                  <Select
+                    value={selectDifficulty}
+                    onChange={(e) => setSelectDifficulty(e.target.value)}
+                    id="CategorySelected"
+                    width={"96"}
+                    height={"35px"}
+                    border={"2px solid #006400"}
+                    _hover={{ borderColor: "2px solid #006400" }}
+                    _focus={{ borderColor: "green.500", borderWidth: "3px" }}
+                  >
+                    <option value="">Select Difficulty</option>
+                    {difficulty.map((level) => (
+                      <option key={level} value={level}>
+                        {level}
+                      </option>
+                    ))}
+                  </Select>
+                </div>
+              </form>
+            </motion.div>
+            <button
+              onClick={(e) => handelOpenModal(e)}
+              className="absolute  translate-y-3 translate-x-96  "
             >
-              <div className="absolute translate-x-[50%] translate-y-[50%]">
-                <img src={IconDarkMode} alt="IconDarkMode" />
+              <div
+                className={` w-11 h-11 rounded-full flex justify-center items-center absolute ${
+                  isLightMode ? "bg-green-900" : "bg-green-400"
+                }`}
+              >
+                <img className="w-6 h-6" src={IconStart} alt="IconStart" />
               </div>
-            </div>
-          </div>
-        </BackGroundTheme>
-      ) : (
-        <BackGround className="absolute z-10 w-[60%] h-[70%] object-cover top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex justify-center border-4 border-white rounded-2xl">
-          <div className="flex justify-center items-center flex-col gap-1 ">
-            <h1 className="text-white text-[40px] font-bold shadow text-stroke-green">
-              QUIZLY
-            </h1>
-            <p className="text-green-900 font-bold rounded-lg w-24 h-8 flex justify-center items-center wavy bg-cloud-pattern">
-              Setup Quiz
-            </p>
-          </div>
-          <div className="py-4">
-            <form className="flex flex-col gap-2 backgroundBlur">
-              <div className="flex flex-col gap-2">
-                <label
-                  className="text-lg font-mono text-green-950"
-                  htmlFor="numberInput"
-                >
-                  Number Of Question:
-                </label>
-                <Input
-                  value={Count}
-                  onChange={(e) => setCount(e.target.value)}
-                  id="numberInput"
-                  type="number"
-                  placeholder="Choose your number of questions"
-                  _placeholder={{ color: "green" }}
-                  width={"96"}
-                  height={"35px"}
-                  border={"2px solid #006400"}
-                  color={"green"}
-                  _hover={{ borderColor: "2px solid #006400" }}
-                  _focus={{ borderColor: "green.500", borderWidth: "3px" }}
-                />
-              </div>
-              <div className="flex flex-col gap-2">
-                <label
-                  htmlFor="CategorySelected"
-                  className="text-lg font-mono text-green-950"
-                >
-                  Category
-                </label>
-                <Select
-                  id="CategorySelected"
-                  width={"96"}
-                  height={"35px"}
-                  border={"2px solid #006400"}
-                  _hover={{ borderColor: "2px solid #006400" }}
-                  _focus={{ borderColor: "green.500", borderWidth: "3px" }}
-                >
-                  <option value=""></option>
-                  <option value=""></option>
-                  <option value=""></option>
-                </Select>
-              </div>
-              <div className="flex flex-col gap-2">
-                <label
-                  htmlFor="DifficultySelected"
-                  className="text-lg font-mono text-green-950"
-                >
-                  Difficulty
-                </label>
-                <Select
-                  id="CategorySelected"
-                  width={"96"}
-                  height={"35px"}
-                  border={"2px solid #006400"}
-                  _hover={{ borderColor: "2px solid #006400" }}
-                  _focus={{ borderColor: "green.500", borderWidth: "3px" }}
-                >
-                  <option value=""></option>
-                  <option value=""></option>
-                  <option value=""></option>
-                </Select>
-              </div>
-              <div className="relative translate-x-[50%] translate-y-8">
-                <button
-                  onClick={(e) => handelOpenModal(e)}
-                  className={`bg-green-500 w-11 h-11 rounded-full flex justify-center items-center absolute transition-transform `}
-                >
-                  <img className="w-6 h-6" src={IconStart} alt="IconStart" />
-                </button>
-              </div>
-            </form>
-            <div
+            </button>
+
+            <button
               onClick={handelDarkMode}
-              className="bg-green-700 w-[43px] h-[43px] rounded-full fixed top-8 right-8"
+              className={`${
+                isLightMode ? "bg-green-900" : "bg-green-400"
+              } w-[43px] h-[43px] rounded-full absolute top-8 right-8`}
             >
-              <div className="absolute translate-x-[50%] translate-y-[50%]">
-                <img src={IconDarkMode} alt="IconDarkMode" />
-              </div>
-            </div>
+              <img
+                className="translate-x-[50%] "
+                src={IconDarkMode}
+                alt="IconDarkMode"
+              />
+            </button>
           </div>
-        </BackGround>
-      )}
+        </div>
+      </motion.div>
+      )
     </div>
   );
 }
