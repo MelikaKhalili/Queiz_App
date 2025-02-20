@@ -8,20 +8,22 @@ import IconDarkMode from "../../assets/svgs/IconDarkMode.svg";
 import GreenWaveBackGround from "../../components/base/greenWaveBackGround/greenWaveBackGround";
 import { ThemeContext } from "../../components/DarkProvider/DarkProvider";
 import { MyContext } from "../../components/ModalProvider/ModalProvider";
+import { QuizContext } from "../../components/QuestionsProvider/QuestionsProvider";
 import { GetCategory } from "../../services/getDataSetup";
 import "./Setup.css";
 
 export default function Setup() {
   //States:
   const { isLightMode, setIsLightMode } = useContext<any>(ThemeContext);
-  const { setOpenModal } = useContext<any>(MyContext);
   const navigate = useNavigate();
+  const { setOpenModal } = useContext<any>(MyContext);
   const [countQueiz, setCountQueiz] = useState("");
   const [categories, setcategories] = useState<any>([]);
   const [difficulty, setDifficulty] = useState(["Easy", "Medium", "Hard"]);
   const [selectDifficulty, setSelectDifficulty] = useState("");
   const [selectCategories, setSelectCategories] = useState<string>("");
   console.log(countQueiz);
+  const { dispatch } = useContext<any>(QuizContext);
   useEffect(() => {
     GetCategory().then((res) => setcategories(res));
   }, []);
@@ -36,6 +38,8 @@ export default function Setup() {
   const handelOpenModal = (e: any) => {
     setOpenModal(true);
     e.preventDefault(e);
+    dispatch({ type: "SET_SETTING", payload: queizSettings });
+
     Swal.fire({
       text: "Let's go 😍🫀",
       showConfirmButton: false,
