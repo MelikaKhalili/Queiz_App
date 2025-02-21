@@ -3,22 +3,25 @@ import { useContext, useEffect, useState } from "react";
 import { IoIosArrowDropleft, IoIosArrowDropright } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import IconDarkMode from "../../assets/svgs/IconDarkMode.svg";
-import GreenWaveBackGround from "../../components/base/greenWaveBackGround/greenWaveBackGround";
 import { useCategory } from "../../components/CategoryProvider/CategoryProvider";
 import { ThemeContext } from "../../components/DarkProvider/DarkProvider";
+import QuestionBox from "../../components/QuestionBox/QuestionBox";
 import { QuizContext } from "../../components/QuestionsProvider/QuestionsProvider";
-import { fetchQuestions } from "../../services/getDataSetup";
+import GreenWaveBackGround from "../../components/base/greenWaveBackGround/greenWaveBackGround";
 import "./Questions.css";
 
 export default function Questions() {
   const { isLightMode, setIsLightMode } = useContext<any>(ThemeContext);
   const { state, dispatch } = useContext<any>(QuizContext);
   const { queizSettings } = state;
-  const [questions, setQuestions] = useState<any[]>([]);
   const { category } = useCategory();
   const navigate = useNavigate();
+  const [selectedAnswer, setSelectedAnswer] = useState<any[]>([]); // پاسخ‌ها برای تمام سوالات
+  const [hasAnswerd, setHasAnswerd] = useState<boolean>(false);
+
   const handelNext = () => {
-    if (state.currentQuestionIndex < questions.length - 1) {
+    if (!hasAnswerd) return;
+    if (state.currentQuestionIndex < state.questions.length - 1) {
       dispatch({
         type: "NEXT_QUEZTION",
         payload: state.currentQuestionIndex + 1,
@@ -45,46 +48,47 @@ export default function Questions() {
   const categoryId = selectedCategory ? selectedCategory.id : null;
 
   useEffect(() => {
-    const getQuestions = async () => {
-      try {
-        const data = await fetchQuestions({
-          count: queizSettings.numberOfQueizs,
-          cat: categoryId,
-          dif: queizSettings.difficulty.toLowerCase(),
-        });
-        setQuestions(data.results);
-        console.log("Fetched Questions:", data.results);
-      } catch (error) {
-        console.error("Error fetching questions:", error);
-      }
-    };
-
     if (
-      queizSettings.category &&
-      queizSettings.difficulty &&
-      queizSettings.numberOfQueizs
+      state.currentQuestionIndex === state.questions.length - 1 &&
+      hasAnswerd
     ) {
-      getQuestions();
+      setTimeout(() => navigate("/results"), 8000);
     }
-  }, [queizSettings, categoryId]);
-
+  }, [
+    state.currentQuestionIndex,
+    state.questions.length,
+    hasAnswerd,
+    navigate,
+  ]);
   const handelAnswerClick = (
     selectedOption: string,
     correct_answer: string
   ) => {
+    const currentIndex = state.currentQuestionIndex;
+
+    setSelectedAnswer((prevAnswers: any[]) => {
+      const updatedAnswers = [...prevAnswers];
+      updatedAnswers[currentIndex] = selectedOption;
+      return updatedAnswers;
+    });
+
+    if (hasAnswerd) {
+      return;
+    }
+
     if (selectedOption === correct_answer) {
       dispatch({ type: "SCORE" });
     }
 
-    if (state.currentQuestionIndex === questions.length - 1) {
-      setTimeout(() => navigate("/result"), 3000);
-    } else {
-      dispatch({
-        type: "NEXT_QUEZTION",
-        payload: state.currentQuestionIndex + 1,
-      });
-    }
+    setHasAnswerd(true);
   };
+  console.log("Current Question Index: ", state.currentQuestionIndex);
+  console.log("Total Questions: ", state.questions.length);
+  console.log("Questions Array: ", state.questions);
+  console.log(
+    "Is last question? ",
+    state.currentQuestionIndex === state.questions.length - 1
+  );
 
   return (
     <div
@@ -108,7 +112,7 @@ export default function Questions() {
           <button
             onClick={handelDarkMode}
             className={`w-[43px] h-[43px] rounded-[100%] mt-8 ${
-              isLightMode ? " bg-green-900" : "bg-green-400"
+              isLightMode ? "bg-green-900" : "bg-green-400"
             }`}
           >
             <img
@@ -120,48 +124,14 @@ export default function Questions() {
         </div>
 
         <div className="questions-box glass-box flex justify-center items-center">
-          {questions.length > 0 &&
-            state.currentQuestionIndex < questions.length && (
-              <div className="question-card">
-                <div className="bg-[#50C878] w-[600px] rounded-md py-1 px-6 shadow-xl border-2 border-green-400">
-                  <p className="font-serif text-lg text-white">
-                    {questions[state.currentQuestionIndex].question}
-                  </p>
-                </div>
-                <div className="grid grid-cols-2 gap-12">
-                  {questions[state.currentQuestionIndex].incorrect_answers
-                    .concat(
-                      questions[state.currentQuestionIndex].correct_answer
-                    )
-                    .sort(() => Math.random() - 0.5)
-                    .map((option: any, i: any) => (
-                      <div
-                        className="flex justify-center items-center gap-12 mt-6"
-                        key={i}
-                      >
-                        <Button
-                          onClick={() =>
-                            handelAnswerClick(
-                              option,
-                              questions[state.currentQuestionIndex]
-                                .correct_answer
-                            )
-                          }
-                          border={"2px"}
-                          height={"50px"}
-                          borderColor={"#50C878"}
-                          width={"200px"}
-                          color={"white"}
-                          bg={"#2ECC71"}
-                          className="option"
-                        >
-                          <p>{option}</p>
-                        </Button>
-                      </div>
-                    ))}
-                </div>
-              </div>
-            )}
+          <QuestionBox
+            hasAnswerd={hasAnswerd}
+            setHasAnswerd={setHasAnswerd}
+            question={state.questions[state.currentQuestionIndex]}
+            handelAnswerClick={handelAnswerClick}
+            selectedAnswer={selectedAnswer[state.currentQuestionIndex]}
+            setSelectedAnswer={setSelectedAnswer}
+          />
         </div>
       </div>
       <div className="flex gap-8 absolute bottom-8 right-10">
@@ -170,6 +140,7 @@ export default function Questions() {
           bg={"#D35400"}
           color={"white"}
           rounded={"full"}
+          disabled={!hasAnswerd}
         >
           <div className="flex justify-center items-center gap-2">
             <IoIosArrowDropleft />
@@ -182,7 +153,7 @@ export default function Questions() {
           color={"white"}
           rounded={"full"}
         >
-          <div className="flex justify-center items-center gap-2">
+          <div className="flex justify-center items-center gap-2 ">
             <p>Previous question</p>
             <IoIosArrowDropright />
           </div>

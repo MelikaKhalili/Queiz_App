@@ -15,6 +15,7 @@ type QuizState = {
   questions: any[];
   score: number;
   currentQuestionIndex: number;
+  totalQuestions: number;
 };
 const initialState: QuizState = {
   queizSettings: {
@@ -25,6 +26,7 @@ const initialState: QuizState = {
   questions: [],
   score: 0,
   currentQuestionIndex: 0,
+  totalQuestions: 0,
 };
 
 console.log(initialState);
@@ -37,7 +39,11 @@ type Action =
 const queizReducer = (state: QuizState, action: Action): QuizState => {
   switch (action.type) {
     case "SET_SETTING": //Setup
-      return { ...state, queizSettings: action.payload };
+      return {
+        ...state,
+        queizSettings: action.payload,
+        totalQuestions: action.payload.numberOfQueizs,
+      };
     case "SET_QUESTIONS":
       return { ...state, questions: action.payload };
     case "SCORE":

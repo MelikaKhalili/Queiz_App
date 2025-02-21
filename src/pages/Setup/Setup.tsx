@@ -5,11 +5,11 @@ import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 import IconStart from "../../assets/images/IconStart.png";
 import IconDarkMode from "../../assets/svgs/IconDarkMode.svg";
-import GreenWaveBackGround from "../../components/base/greenWaveBackGround/greenWaveBackGround";
 import { ThemeContext } from "../../components/DarkProvider/DarkProvider";
 import { MyContext } from "../../components/ModalProvider/ModalProvider";
 import { QuizContext } from "../../components/QuestionsProvider/QuestionsProvider";
-import { GetCategory } from "../../services/getDataSetup";
+import GreenWaveBackGround from "../../components/base/greenWaveBackGround/greenWaveBackGround";
+import { GetCategory, fetchQuestions } from "../../services/getDataSetup";
 import "./Setup.css";
 
 export default function Setup() {
@@ -17,12 +17,16 @@ export default function Setup() {
   const { isLightMode, setIsLightMode } = useContext<any>(ThemeContext);
   const navigate = useNavigate();
   const { setOpenModal } = useContext<any>(MyContext);
-  const [countQueiz, setCountQueiz] = useState("");
-  const [categories, setcategories] = useState<any>([]);
-  const [difficulty, setDifficulty] = useState(["Easy", "Medium", "Hard"]);
-  const [selectDifficulty, setSelectDifficulty] = useState("");
-  const [selectCategories, setSelectCategories] = useState<string>("");
+  const [countQueiz, setCountQueiz] = useState(""); //سوالات انتخابی کاربر
+  const [categories, setcategories] = useState<any>([]); //ذخیره دسته بندی ها
+  const [difficulty, setDifficulty] = useState(
+    ["Easy", "Medium", "Hard"].map((item) => item.toLocaleLowerCase())
+  ); //ذخیره سطح سختی
+  const [selectDifficulty, setSelectDifficulty] = useState(""); //برای ذخیره مقادیر که توسط کاربر انتخاب میشه
+  const [selectCategories, setSelectCategories] = useState<string>(""); //برای ذخیره مقادیری که کاربر انتخابشون میکنه
   console.log(countQueiz);
+  console.log(categories);
+  console.log(difficulty);
   const { dispatch } = useContext<any>(QuizContext);
   useEffect(() => {
     GetCategory().then((res) => setcategories(res));
@@ -34,24 +38,29 @@ export default function Setup() {
     numberOfQueizs: parseInt(countQueiz),
     category: selectCategories,
     difficulty: selectDifficulty,
-  };
+  }; //آبجکت تنظیمات آزمون
   const handelOpenModal = (e: any) => {
     setOpenModal(true);
     e.preventDefault(e);
-    dispatch({ type: "SET_SETTING", payload: queizSettings });
-
-    Swal.fire({
-      text: "Let's go 😍🫀",
-      showConfirmButton: false,
-      background: " #93C572",
-      color: "white",
-      timer: 2000,
-    }).then(() => {
-      navigate("/questions", { state: { queizSettings } });
-      console.log(queizSettings);
-    });
+    // dispatch({ type: "SET_SETTING", payload: queizSettings });
+    fetchQuestions({ countQueiz, selectCategories, selectDifficulty }) //سوالات رو بر اساس تنظیمات کاربر دریافت میکند
+      .then((res) => {
+        dispatch({ type: "SET_QUESTIONS", payload: res.results });
+        console.log(res); //کنسول از resخالی صرفا هم دیتاهایی که من میخوام و میگیره هم وضعیت کار و status
+      })
+      .finally(() => {
+        Swal.fire({
+          text: "Let's go 😍🫀",
+          showConfirmButton: false,
+          background: " #93C572",
+          color: "white",
+          timer: 2000,
+        }).then(() => {
+          navigate("/questions");
+          console.log(queizSettings);
+        });
+      });
   };
-
   return (
     <div
       className={
@@ -101,7 +110,7 @@ export default function Setup() {
                     value={countQueiz}
                     onChange={(e) => setCountQueiz(e.target.value)}
                     id="numberInput"
-                    type="number"
+                    type={"number"}
                     placeholder="Choose your number of questions"
                     _placeholder={{ color: "green" }}
                     width={"96"}
@@ -132,7 +141,9 @@ export default function Setup() {
                     style={{ marginBottom: "0px" }}
                   >
                     {categories.map((categorie: any) => (
-                      <option key={categorie.id}>{categorie.name}</option>
+                      <option value={categorie.id} key={categorie.id}>
+                        {categorie.name}
+                      </option>
                     ))}
                   </Select>
                 </div>

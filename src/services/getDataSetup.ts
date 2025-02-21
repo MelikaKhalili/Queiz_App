@@ -1,10 +1,15 @@
 // export const API_BASE_URL = `https://opentdb.com/api.php?amount=30`;
 import axios from "axios";
-export const fetchQuestions = async ({ count, cat, dif }: any) => {
+export const fetchQuestions = async ({
+  countQueiz,
+  selectCategories,
+  selectDifficulty,
+}: any) => {
   const response = await axios.get(
-    `https://opentdb.com/api.php?amount=${count}&category=${cat}&difficulty=${dif}`
+    `https://opentdb.com/api.php?amount=${countQueiz}&category=${selectCategories}&difficulty=${selectDifficulty}`
   );
   console.log(response.data);
+  console.log(countQueiz, selectCategories, selectDifficulty);
   return response.data;
 };
 
