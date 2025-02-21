@@ -16,7 +16,7 @@ export default function Questions() {
   const { queizSettings } = state;
   const { category } = useCategory();
   const navigate = useNavigate();
-  const [selectedAnswer, setSelectedAnswer] = useState<any[]>([]);
+  const [selectedAnswer, setSelectedAnswer] = useState<any[]>([]); // پاسخ‌ها برای تمام سوالات
   const [hasAnswerd, setHasAnswerd] = useState<boolean>(false);
 
   const handelNext = () => {
@@ -52,7 +52,7 @@ export default function Questions() {
       state.currentQuestionIndex === state.questions.length - 1 &&
       hasAnswerd
     ) {
-      setTimeout(() => navigate("/results"), 10000);
+      setTimeout(() => navigate("/results"), 8000);
     }
   }, [
     state.currentQuestionIndex,

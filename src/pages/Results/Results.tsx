@@ -31,6 +31,9 @@ export default function Results() {
   const handelAgain = () => {
     navigate("/");
   };
+  const handelReviewPage = () => {
+    navigate("/review");
+  };
   const { isLightMode, setIsLightMode } = useContext<any>(ThemeContext);
   const { state } = useContext<any>(QuizContext);
   const { score, totalQuestions } = state;
@@ -112,6 +115,7 @@ export default function Results() {
       </div>
       <div className="absolute bottom-8 right-8">
         <Button
+          onClick={handelReviewPage}
           width={"200px"}
           color={"white"}
           bg={"yellow.600"}

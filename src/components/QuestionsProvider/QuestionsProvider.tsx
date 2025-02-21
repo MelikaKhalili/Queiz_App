@@ -55,6 +55,7 @@ const queizReducer = (state: QuizState, action: Action): QuizState => {
       return { ...state, currentQuestionIndex: action.payload };
     case "PREV_QUESTION":
       return { ...state, currentQuestionIndex: action.payload };
+
     default:
       return state;
   }
