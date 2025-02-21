@@ -42,10 +42,13 @@ const queizReducer = (state: QuizState, action: Action): QuizState => {
       return {
         ...state,
         queizSettings: action.payload,
-        totalQuestions: action.payload.numberOfQueizs,
       };
     case "SET_QUESTIONS":
-      return { ...state, questions: action.payload };
+      return {
+        ...state,
+        questions: action.payload,
+        totalQuestions: action.payload.length,
+      };
     case "SCORE":
       return { ...state, score: state.score + 1 };
     case "NEXT_QUEZTION":
