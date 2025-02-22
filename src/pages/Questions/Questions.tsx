@@ -16,9 +16,12 @@ export default function Questions() {
   const { queizSettings } = state;
   const { category } = useCategory();
   const navigate = useNavigate();
-  const [selectedAnswer, setSelectedAnswer] = useState<any[]>([]); // پاسخ‌ها برای تمام سوالات
+  const [selectedAnswer, setSelectedAnswer] = useState<any[]>([]); //جا براsave
+  console.log(setSelectedAnswer);
   const [hasAnswerd, setHasAnswerd] = useState<boolean>(false);
-
+  useEffect(() => {
+    localStorage.setItem("selectedAnswer", JSON.stringify(selectedAnswer));
+  }, [selectedAnswer]);
   const handelNext = () => {
     if (!hasAnswerd) return;
     if (state.currentQuestionIndex < state.questions.length - 1) {

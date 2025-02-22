@@ -9,7 +9,9 @@ export const fetchQuestions = async ({
     `https://opentdb.com/api.php?amount=${countQueiz}&category=${selectCategories}&difficulty=${selectDifficulty}`
   );
   console.log(response.data);
-  console.log(countQueiz, selectCategories, selectDifficulty);
+  // console.log(countQueiz, selectCategories, selectDifficulty);
+  localStorage.setItem("Questions", JSON.stringify(response.data.results));
+
   return response.data;
 };
 
