@@ -1,17 +1,17 @@
 import { Button } from "@chakra-ui/react";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { animated, useSpring } from "react-spring";
 import Swal from "sweetalert2";
-import Spaceship from "../../assets/gift/Spaceship.gif";
 import sticker from "../../assets/gift/sticker2.webp";
 import IconQueiz from "../../assets/images/IconQueiz.png";
+import rocket from "../../assets/images/rocket .png";
 import IconDarkMode from "../../assets/svgs/IconDarkMode.svg";
+import GreenWaveBackGround from "../../components/base/greenWaveBackGround/greenWaveBackGround";
 import { ThemeContext } from "../../components/DarkProvider/DarkProvider";
 import ModalProvider, {
   MyContext,
 } from "../../components/ModalProvider/ModalProvider";
-
-import GreenWaveBackGround from "../../components/base/greenWaveBackGround/greenWaveBackGround";
 import SplitText from "../../components/SplitText/SplitText";
 import "./Login.css";
 
@@ -26,34 +26,41 @@ export default function Login() {
 function LoginContent() {
   const { setOpenModal } = useContext<any>(MyContext);
   const { isLightMode, setIsLightMode } = useContext<any>(ThemeContext);
-  //DarkState
+  const [startAnimation, setStartAnimation] = useState(false);
+  const navigate = useNavigate();
+
+  const rocketSpring = useSpring({
+    transform: startAnimation ? "translateY(-600px)" : "translateY(0px)",
+    config: { tension: 100, friction: 40 },
+    onRest: () => {
+      Swal.fire({
+        html: `You are being redirected to the quiz page <div class="flex justify-center items-center pt-4"><img src="${sticker}" alt="Sticker" class="w-20 h-20 rounded-full "/></div>`,
+        confirmButtonColor: "#6A9A3E",
+        width: "50%",
+        color: "black",
+        background: "#A2D09f ",
+        imageUrl: IconQueiz,
+        showCancelButton: true,
+        cancelButtonColor: "red",
+        cancelButtonText: "Cancel",
+        customClass: {
+          confirmButton: "my-confirm-button",
+          cancelButton: "my-canCle-buttton",
+        },
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate("/setup");
+        }
+      });
+    },
+  });
+
+  const handelOpenModal = () => {
+    setStartAnimation(true);
+  };
+
   const handelDarkMode = () => {
     setIsLightMode(!isLightMode);
-  };
-  console.log(isLightMode);
-  const navigate = useNavigate();
-  const handelOpenModal = () => {
-    setOpenModal(true);
-    Swal.fire({
-      html: `You are being redirected to the quiz page <div class="flex justify-center items-center pt-4"><img src="${sticker}" alt="Sticker"
-      class="w-20 h-20 rounded-full "/></div>`,
-      confirmButtonColor: "#6A9A3E",
-      width: "50%",
-      color: "black",
-      background: "#A2D09f ",
-      imageUrl: IconQueiz,
-      showCancelButton: true,
-      cancelButtonColor: "red",
-      cancelButtonText: "Cancel",
-      customClass: {
-        confirmButton: "my-confirm-button",
-        cancelButton: "my-canCle-buttton",
-      },
-    }).then((result) => {
-      if (result.isConfirmed) {
-        navigate("/setup");
-      }
-    });
   };
 
   return (
@@ -86,7 +93,12 @@ function LoginContent() {
           </h2>
           <div className="flex flex-col justify-center items-center absolute bottom-4">
             <div className="mb-6">
-              <img className="w-14" src={Spaceship} alt="Spaceship_Gif" />
+              <animated.img
+                className="w-20"
+                src={rocket}
+                alt="rocket"
+                style={rocketSpring}
+              />
             </div>
             <Button
               onClick={handelOpenModal}

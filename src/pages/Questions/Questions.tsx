@@ -19,6 +19,7 @@ export default function Questions() {
   const [selectedAnswer, setSelectedAnswer] = useState<any[]>([]); //جا براsave
   console.log(setSelectedAnswer);
   const [hasAnswerd, setHasAnswerd] = useState<boolean>(false);
+
   useEffect(() => {
     localStorage.setItem("selectedAnswer", JSON.stringify(selectedAnswer));
   }, [selectedAnswer]);
