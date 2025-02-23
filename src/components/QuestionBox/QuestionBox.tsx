@@ -1,6 +1,7 @@
 import { Button } from "@chakra-ui/react";
 import { useMemo } from "react";
-
+import SplitText from "../SplitText/SplitText";
+import "./QuestionBox.css";
 export default function QuestionBox({
   question,
   handelAnswerClick,
@@ -18,7 +19,7 @@ export default function QuestionBox({
   console.log(question);
   return (
     <>
-      <div className="question-card">
+      <div className="px-12">
         <div className="bg-[#50C878] w-[600px] rounded-md py-1 px-6 shadow-xl border-2 border-green-400">
           <p className="font-serif text-lg text-white">{question.question}</p>
         </div>
@@ -42,7 +43,7 @@ export default function QuestionBox({
                 bg={selectedAnswer === option ? "yellow.400" : "#2ECC71"}
                 className="text-wrap"
               >
-                {option}
+                <SplitText text={option} />
               </Button>
             </div>
           ))}

@@ -12,6 +12,7 @@ import ModalProvider, {
 } from "../../components/ModalProvider/ModalProvider";
 
 import GreenWaveBackGround from "../../components/base/greenWaveBackGround/greenWaveBackGround";
+import SplitText from "../../components/SplitText/SplitText";
 import "./Login.css";
 
 export default function Login() {
@@ -74,7 +75,7 @@ function LoginContent() {
               isLightMode ? "text-black" : "text-white"
             }`}
           >
-            QUIZLY
+            <SplitText text=" QUIZLY" delay={300} />
           </h1>
           <h2
             className={` font-bold text-[50px] text-stroke-green  leading-2 ${

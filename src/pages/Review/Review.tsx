@@ -104,9 +104,7 @@ export default function Review() {
       </div>
 
       <div className="flex justify-center items-center mt-8">
-        <StarBorder className="bg-green-500  w-[300px]">
-          Back To Results
-        </StarBorder>
+        <StarBorder className=" w-[300px]">Back To Results</StarBorder>
       </div>
     </div>
   );

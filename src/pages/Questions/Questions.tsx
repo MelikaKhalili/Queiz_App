@@ -126,7 +126,10 @@ export default function Questions() {
           </button>
         </div>
 
-        <div className="questions-box glass-box flex justify-center items-center">
+        <div
+          key={state.currentQuestionIndex}
+          className="myAnim questions-box glass-box flex justify-center items-center"
+        >
           <QuestionBox
             hasAnswerd={hasAnswerd}
             setHasAnswerd={setHasAnswerd}
