@@ -16,13 +16,13 @@ export default function Questions() {
   const { queizSettings } = state;
   const { category } = useCategory();
   const navigate = useNavigate();
-  const [selectedAnswer, setSelectedAnswer] = useState<any[]>([]); //جا براsave
+  const [selectedAnswer, setSelectedAnswer] = useState<any[]>([]);
   console.log(setSelectedAnswer);
   const [hasAnswerd, setHasAnswerd] = useState<boolean>(false);
-
   useEffect(() => {
     localStorage.setItem("selectedAnswer", JSON.stringify(selectedAnswer));
   }, [selectedAnswer]);
+
   const handelNext = () => {
     if (!hasAnswerd) return;
     if (state.currentQuestionIndex < state.questions.length - 1) {
@@ -64,6 +64,7 @@ export default function Questions() {
     hasAnswerd,
     navigate,
   ]);
+
   const handelAnswerClick = (
     selectedOption: string,
     correct_answer: string
@@ -86,23 +87,15 @@ export default function Questions() {
 
     setHasAnswerd(true);
   };
-  console.log("Current Question Index: ", state.currentQuestionIndex);
-  console.log("Total Questions: ", state.questions.length);
-  console.log("Questions Array: ", state.questions);
-  console.log(
-    "Is last question? ",
-    state.currentQuestionIndex === state.questions.length - 1
-  );
 
   return (
-    <div
-      className={`dark w-screen h-screen overflow-hidden flex justify-center items-center quiz-container`}
-    >
+    <div className="dark w-screen h-screen overflow-hidden flex justify-center items-center quiz-container">
       <div className="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-0 overlay"></div>
       <GreenWaveBackGround className="flex justify-center items-center w-screen background-wave" />
+
       <div
         className={`absolute flex flex-col z-10 w-[60%] h-[70%] rounded-2xl border-4 border-white quiz-content ${
-          isLightMode ? "bg-green-300" : "background"
+          isLightMode ? "bg-green-300" : "Background"
         }`}
       >
         <div className="flex justify-between w-full px-12 quiz-header">
@@ -126,6 +119,7 @@ export default function Questions() {
             />
           </button>
         </div>
+
         <div
           key={state.currentQuestionIndex}
           className="myAnim questions-box glass-box flex justify-center items-center question-container"
@@ -140,7 +134,20 @@ export default function Questions() {
           />
         </div>
       </div>
+
       <div className="flex gap-8 absolute bottom-8 right-10 quiz-navigation">
+        <Button
+          onClick={handlePrevious}
+          bg={"#00CED1"}
+          color={"white"}
+          rounded={"full"}
+          className="prev-button"
+        >
+          <div className="flex justify-center items-center gap-2">
+            <IoIosArrowDropleft />
+            <p className="prev-text">Previous question</p>
+          </div>
+        </Button>
         <Button
           onClick={handelNext}
           bg={"#D35400"}
@@ -150,19 +157,7 @@ export default function Questions() {
           className="next-button"
         >
           <div className="flex justify-center items-center gap-2">
-            <IoIosArrowDropleft />
             <p>Next Question</p>
-          </div>
-        </Button>
-        <Button
-          onClick={handlePrevious}
-          bg={"#00CED1"}
-          color={"white"}
-          rounded={"full"}
-          className="prev-button"
-        >
-          <div className="flex justify-center items-center gap-2">
-            <p>Previous question</p>
             <IoIosArrowDropright />
           </div>
         </Button>

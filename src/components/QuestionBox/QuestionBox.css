@@ -12,3 +12,18 @@
     transform: translateY(0);
   }
 }
+@media (max-width: 360px) {
+  .question-box {
+    width: 100px;
+    height: 70px;
+  }
+  .question-text {
+    font-size: 2px;
+  }
+
+  .answer-grid {
+    display: grid;
+    grid-template-columns: 1fr !important;
+    gap: 2px !important;
+  }
+}

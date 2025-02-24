@@ -81,3 +81,27 @@ html {
     transform: translateY(0);
   }
 }
+@media (max-width: 360px) {
+  .questions-box {
+    height: 100% !important;
+  }
+  .quiz-header {
+    padding: 0px 12px !important;
+  }
+  .quiz-content {
+    width: 90% !important;
+  }
+  .prev-button {
+    width: 150px !important;
+  }
+  .prev-text {
+    font-size: 13px;
+  }
+  .next-button {
+    width: 150px;
+  }
+  .quiz-navigation {
+    position: absolute !important;
+    transform: translateX(7%);
+  }
+}

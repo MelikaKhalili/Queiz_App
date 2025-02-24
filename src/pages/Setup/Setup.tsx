@@ -6,10 +6,10 @@ import { toast } from "react-toastify";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 import IconStart from "../../assets/images/IconStart.png";
 import IconDarkMode from "../../assets/svgs/IconDarkMode.svg";
+import GreenWaveBackGround from "../../components/base/greenWaveBackGround/greenWaveBackGround";
 import { ThemeContext } from "../../components/DarkProvider/DarkProvider";
 import { MyContext } from "../../components/ModalProvider/ModalProvider";
 import { QuizContext } from "../../components/QuestionsProvider/QuestionsProvider";
-import GreenWaveBackGround from "../../components/base/greenWaveBackGround/greenWaveBackGround";
 import { fetchQuestions, GetCategory } from "../../services/getDataSetup";
 import "./Setup.css";
 
@@ -91,8 +91,9 @@ export default function Setup() {
   };
   return (
     <div className="dark w-screen h-screen overflow-hidden flex justify-center items-center container">
-      <div className="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-0 overlay"></div>
-      <GreenWaveBackGround className="flex justify-center items-center w-[100%] background" />
+      <GreenWaveBackGround className="absolute w-full h-full top-0 left-0 background z-0" />
+      <div className="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-1 overlay"></div>
+
       <motion.div
         initial={{ rotateX: 90, rotateY: 180, scale: 0 }}
         animate={{ rotateX: 0, rotateY: 0, scale: 1 }}

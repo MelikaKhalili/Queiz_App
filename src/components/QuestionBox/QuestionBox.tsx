@@ -19,14 +19,17 @@ export default function QuestionBox({
   console.log(question);
   return (
     <>
-      <div className="px-12">
-        <div className="bg-[#50C878] w-[600px] rounded-md py-1 px-6 shadow-xl border-2 border-green-400">
-          <p className="font-serif text-lg text-white">{question.question}</p>
+      <div className="px-4 question-container">
+        <div className="bg-[#50C878] w-full sm:w-[500px] md:w-[600px] max-w-full h-auto sm:h-[100px] md:h-[120px] rounded-md py-2 px-6 shadow-xl border-2 border-green-400 question-box">
+          <p className="font-serif text-lg text-white question-text overflow-hidden line-clamp-3">
+            {question.question}
+          </p>
         </div>
-        <div className="grid grid-cols-2 gap-12">
+
+        <div className="grid grid-cols-2 gap-12 answer-grid">
           {shafeledAnswer.map((option: any, i: any) => (
             <div
-              className="flex justify-center items-center gap-12 mt-6"
+              className="flex justify-center items-center gap-12 mt-6 answer-container"
               key={i}
             >
               <Button
@@ -41,7 +44,7 @@ export default function QuestionBox({
                 minWidth={"50px"}
                 color={"white"}
                 bg={selectedAnswer === option ? "yellow.400" : "#2ECC71"}
-                className="text-wrap"
+                className="text-wrap answer-button"
               >
                 <SplitText text={option} />
               </Button>
