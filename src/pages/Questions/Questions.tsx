@@ -96,18 +96,18 @@ export default function Questions() {
 
   return (
     <div
-      className={`dark w-screen h-screen overflow-hidden flex justify-center items-center`}
+      className={`dark w-screen h-screen overflow-hidden flex justify-center items-center quiz-container`}
     >
-      <div className="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-0"></div>
-      <GreenWaveBackGround className="flex justify-center items-center w-screen" />
+      <div className="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-0 overlay"></div>
+      <GreenWaveBackGround className="flex justify-center items-center w-screen background-wave" />
       <div
-        className={`absolute flex flex-col z-10 w-[60%] h-[70%] rounded-2xl border-4 border-white ${
-          isLightMode ? "bg-green-300" : "Background"
+        className={`absolute flex flex-col z-10 w-[60%] h-[70%] rounded-2xl border-4 border-white quiz-content ${
+          isLightMode ? "bg-green-300" : "background"
         }`}
       >
-        <div className="flex justify-between w-full px-12">
+        <div className="flex justify-between w-full px-12 quiz-header">
           <h1
-            className={`text-[40px] font-bold text-stroke-green py-6 text-start ${
+            className={`text-[40px] font-bold text-stroke-green py-6 text-start quiz-title ${
               isLightMode ? "text-black" : "text-white"
             }`}
           >
@@ -115,21 +115,20 @@ export default function Questions() {
           </h1>
           <button
             onClick={handelDarkMode}
-            className={`w-[43px] h-[43px] rounded-[100%] mt-8 ${
+            className={`w-[43px] h-[43px] rounded-[100%] mt-8 darkmode-button ${
               isLightMode ? "bg-green-900" : "bg-green-400"
             }`}
           >
             <img
-              className="translate-x-[50%]"
+              className="translate-x-[50%] darkmode-img"
               src={IconDarkMode}
               alt="IconDarkMode"
             />
           </button>
         </div>
-
         <div
           key={state.currentQuestionIndex}
-          className="myAnim questions-box glass-box flex justify-center items-center"
+          className="myAnim questions-box glass-box flex justify-center items-center question-container"
         >
           <QuestionBox
             hasAnswerd={hasAnswerd}
@@ -141,17 +140,18 @@ export default function Questions() {
           />
         </div>
       </div>
-      <div className="flex gap-8 absolute bottom-8 right-10">
+      <div className="flex gap-8 absolute bottom-8 right-10 quiz-navigation">
         <Button
           onClick={handelNext}
           bg={"#D35400"}
           color={"white"}
           rounded={"full"}
           disabled={!hasAnswerd}
+          className="next-button"
         >
           <div className="flex justify-center items-center gap-2">
             <IoIosArrowDropleft />
-            <p>Next Quezstion</p>
+            <p>Next Question</p>
           </div>
         </Button>
         <Button
@@ -159,8 +159,9 @@ export default function Questions() {
           bg={"#00CED1"}
           color={"white"}
           rounded={"full"}
+          className="prev-button"
         >
-          <div className="flex justify-center items-center gap-2 ">
+          <div className="flex justify-center items-center gap-2">
             <p>Previous question</p>
             <IoIosArrowDropright />
           </div>

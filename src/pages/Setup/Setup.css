@@ -60,6 +60,96 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  height: 100%;
-  width: 100%;
+  height: 100vh;
+  width: 100vw;
+}
+@media (max-width: 360px) {
+  .quiz-card {
+    width: 90% !important;
+  }
+  .container {
+    width: 100vw;
+    overflow-x: hidden;
+    height: 100vh;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .quiz-form {
+    width: 80% !important;
+    margin-top: 30px;
+  }
+  .number-section {
+    width: 100% !important;
+  }
+  .number-label {
+    font-size: 10px !important;
+  }
+  .number-input {
+    width: 100% !important;
+  }
+  .category-section {
+    width: 100% !important;
+  }
+  .category-label {
+    font-size: 10px !important;
+  }
+  .category-select {
+    width: 55% !important;
+  }
+  .difficulty-section {
+    width: 100% !important;
+  }
+  .difficulty-label {
+    font-size: 10px !important;
+  }
+  .difficulty-select {
+    width: 55% !important;
+  }
+  .dark-mode-btn {
+    position: absolute;
+    top: 20px !important;
+    right: 20px !important;
+  }
+
+  .start-quiz-btn {
+    position: absolute !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    bottom: 70px !important;
+  }
+  .option-categorie {
+    width: 200px !important;
+    max-width: 180px !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .category-select,
+  .difficulty-select {
+    width: 100% !important; /* سلکت در موبایل تمام عرض شود */
+    max-width: 100% !important;
+    font-size: 12px !important; /* سایز فونت مناسب موبایل */
+  }
+
+  .option-categorie {
+    width: 100% !important;
+    max-width: 100% !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 12px !important;
+  }
+
+  .chakra-menu {
+    width: 100% !important; /* عرض منو متناسب با سلکت */
+    max-width: 100% !important;
+    overflow-x: hidden;
+  }
+
+  select {
+    font-size: 14px !important; /* اندازه متن داخل سلکت */
+    padding: 6px !important; /* بهینه‌سازی فاصله داخلی */
+  }
 }

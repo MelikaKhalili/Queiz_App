@@ -90,46 +90,42 @@ export default function Setup() {
     }
   };
   return (
-    <div
-      className={
-        "dark w-screen h-screen overflow-hidden  flex justify-center items-center"
-      }
-    >
-      <div className="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-0"></div>
-      <GreenWaveBackGround className="flex justify-center items-center w-screen" />
-      (
+    <div className="dark w-screen h-screen overflow-hidden flex justify-center items-center container">
+      <div className="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-0 overlay"></div>
+      <GreenWaveBackGround className="flex justify-center items-center w-[100%] background" />
       <motion.div
         initial={{ rotateX: 90, rotateY: 180, scale: 0 }}
         animate={{ rotateX: 0, rotateY: 0, scale: 1 }}
         transition={{ duration: 1.5, ease: "easeInOut" }}
         className={`absolute z-10 w-[60%] h-[70%] rounded-2xl border-4 border-white ${
           isLightMode ? "bg-green-300" : "Background"
-        }`}
+        } quiz-card`}
       >
-        <div>
-          <div className="flex justify-center items-center flex-col gap-1 ">
+        <div className="content">
+          <div className="flex justify-center items-center flex-col gap-1 header">
             <h1
-              className={` text-[40px] font-bold  text-stroke-green ${
+              className={`text-[40px] font-bold text-stroke-green quiz-title ${
                 isLightMode ? "text-white" : "text-black"
               }`}
             >
               QUIZLY
             </h1>
-            <p className="text-green-900 font-bold rounded-lg w-24 h-8 flex justify-center items-center wavy bg-cloud-pattern">
+            <p className="text-green-900 font-bold rounded-lg w-24 h-8 flex justify-center items-center wavy bg-cloud-pattern setup-quiz-btn">
               Setup Quiz
             </p>
           </div>
-          <div className="py-4">
+          <div className="py-4 form-section">
             <motion.div
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
               drag
               dragConstraints={{ left: -50, right: 50 }}
+              className="form-wrapper"
             >
-              <form className="flex flex-col gap-2 backgroundBlur">
-                <div className="flex flex-col gap-2">
+              <form className="flex flex-col gap-2 backgroundBlur quiz-form">
+                <div className="flex flex-col gap-2 number-section">
                   <label
-                    className="text-lg font-mono text-green-950"
+                    className="text-lg font-mono text-green-950 number-label"
                     htmlFor="numberInput"
                   >
                     Number Of Question:
@@ -147,12 +143,13 @@ export default function Setup() {
                     color={"green"}
                     _hover={{ borderColor: "2px solid #006400" }}
                     _focus={{ borderColor: "green.500", borderWidth: "3px" }}
+                    className="number-input"
                   />
                 </div>
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-2 category-section">
                   <label
                     htmlFor="CategorySelected"
-                    className="text-lg font-mono text-green-950"
+                    className="text-lg font-mono text-green-950 category-label"
                   >
                     Category
                   </label>
@@ -161,36 +158,48 @@ export default function Setup() {
                     onChange={(e) => setSelectCategories(e.target.value)}
                     placeholder="Select a Category"
                     id="CategorySelected"
-                    width={"96"}
                     height={"35px"}
+                    width={{
+                      base: "100%",
+                      sm: "96",
+                    }}
                     border={"2px solid #006400"}
                     _hover={{ borderColor: "2px solid #006400" }}
                     _focus={{ borderColor: "green.500", borderWidth: "3px" }}
                     style={{ marginBottom: "0px" }}
+                    className="category-select"
                   >
                     {categories.map((categorie: any) => (
-                      <option value={categorie.id} key={categorie.id}>
+                      <option
+                        className="option-categorie"
+                        value={categorie.id}
+                        key={categorie.id}
+                      >
                         {categorie.name}
                       </option>
                     ))}
                   </Select>
                 </div>
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-2 difficulty-section">
                   <label
                     htmlFor="DifficultySelected"
-                    className="text-lg font-mono text-green-950"
+                    className="text-lg font-mono text-green-950 difficulty-label"
                   >
                     Difficulty
                   </label>
                   <Select
                     value={selectDifficulty}
+                    width={{
+                      base: "100%",
+                      sm: "96",
+                    }}
                     onChange={(e) => setSelectDifficulty(e.target.value)}
                     id="CategorySelected"
-                    width={"96"}
                     height={"35px"}
                     border={"2px solid #006400"}
                     _hover={{ borderColor: "2px solid #006400" }}
                     _focus={{ borderColor: "green.500", borderWidth: "3px" }}
+                    className="difficulty-select"
                   >
                     <option value="">Select Difficulty</option>
                     {difficulty.map((level) => (
@@ -204,24 +213,28 @@ export default function Setup() {
             </motion.div>
             <button
               onClick={(e) => handelOpenModal(e)}
-              className="absolute  translate-y-3 translate-x-96  "
+              className="absolute translate-y-3 translate-x-96 start-quiz-btn"
             >
               <div
-                className={` w-11 h-11 rounded-full flex justify-center items-center absolute ${
+                className={`w-11 h-11 rounded-full flex justify-center items-center absolute start-btn-container ${
                   isLightMode ? "bg-green-900" : "bg-green-400"
                 }`}
               >
-                <img className="w-6 h-6" src={IconStart} alt="IconStart" />
+                <img
+                  className="w-6 h-6 start-icon"
+                  src={IconStart}
+                  alt="IconStart "
+                />
               </div>
             </button>
             <button
               onClick={handelDarkMode}
               className={`${
                 isLightMode ? "bg-green-900" : "bg-green-400"
-              } w-[43px] h-[43px] rounded-full absolute top-8 right-8`}
+              } w-[43px] h-[43px] rounded-full absolute top-8 right-8 dark-mode-btn`}
             >
               <img
-                className="translate-x-[50%] "
+                className="translate-x-[50%] dark-mode-icon"
                 src={IconDarkMode}
                 alt="IconDarkMode"
               />
@@ -229,7 +242,6 @@ export default function Setup() {
           </div>
         </div>
       </motion.div>
-      )
     </div>
   );
 }
