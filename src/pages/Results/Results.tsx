@@ -51,18 +51,19 @@ export default function Results() {
 
   return (
     <div
-      className={`dark w-screen h-screen overflow-hidden flex justify-center items-center ${
+      className={`dark w-screen h-screen overflow-hidden flex justify-center items-center container ${
         isLightMode ? "bg-white" : "bg-black"
       }`}
     >
+      <GreenWaveBackGround className="absolute inset-0 w-full h-full" />
       <div className="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-0"></div>
-      <GreenWaveBackGround className="flex justify-center items-center w-screen h-screen" />
+
       <div
-        className={`absolute flex flex-col z-10 w-[60%] h-[70%] rounded-2xl border-4 border-white ${
+        className={`absolute flex flex-col z-10 w-[60%] h-[70%] rounded-2xl border-4 border-white container-cart ${
           isLightMode ? "bg-green-300" : "Background"
         }`}
       >
-        <div className="flex justify-between w-full px-12">
+        <div className="flex justify-between w-full px-12 parent-header">
           <h1
             className={`text-[40px] font-bold py-6 text-start ${
               isLightMode ? "text-black" : "text-white"
@@ -84,12 +85,14 @@ export default function Results() {
           </button>
         </div>
 
-        <div className="text-white glass-box2 flex gap-10">
+        <div className="text-white glass-box2 flex justify-center items-center  gap-10 parent-glassbox">
           <div className="flex flex-col gap-2 justify-center items-center">
             <div className="bg-white w-24 h-24 rounded-full flex justify-center items-center  ">
               <img className="w-16 " src={currentSticker?.img} alt="Sticker" />
             </div>
-            <p>{currentSticker?.text}</p>
+            <div className="flex justify-center items-center  text-center">
+              <p>{currentSticker?.text}</p>
+            </div>
           </div>
           <div className="flex flex-col gap-4 ">
             <div>

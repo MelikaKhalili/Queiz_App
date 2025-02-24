@@ -1,3 +1,13 @@
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+}
+body,
+html {
+  width: 100vw;
+  height: 100vh;
+}
 .glass-box2 {
   width: 40%;
   height: 70%;
@@ -29,4 +39,39 @@
 .option {
   transition: all 0.3s ease;
   border: 2px solid transparent;
+}
+@media (max-width: 360px) {
+  .container {
+    width: 100vw !important;
+    height: 100vh !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+  }
+
+  .container-cart {
+    width: 90vw !important;
+    height: 70vh !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .parent-header {
+    width: 100%;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+
+  .parent-glassbox {
+    width: 90%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    transform: translateX(-80%);
+  }
 }
