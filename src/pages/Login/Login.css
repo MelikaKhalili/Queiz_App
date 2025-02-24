@@ -58,3 +58,53 @@ h2 {
     border-right-color: transparent;
   }
 }
+@media (max-width: 360px) {
+  .custom-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+  }
+  .custom-background {
+    width: 100%;
+    height: 100%;
+  }
+  .custom-main-container {
+    padding: 0px 20px;
+    width: 80% !important ;
+  }
+  .custom-title {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+  }
+  .titel {
+    font-size: 30px;
+  }
+  .custom-subtitle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    max-width: 100%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    font-size: 24px;
+    line-height: 1.4;
+    padding: 10px;
+  }
+  .custom-rocket {
+    width: 5px;
+    height: 60px;
+  }
+  .custom-darkmode-button {
+    width: 40px !important;
+    height: 40px;
+  }
+  .img-DarkMode {
+    width: 30px;
+    height: 30px;
+    transform: translate(20%, 5%) !important;
+  }
+}

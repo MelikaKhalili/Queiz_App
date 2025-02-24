@@ -64,37 +64,33 @@ function LoginContent() {
   };
 
   return (
-    <div
-      className={
-        "dark w-screen h-screen overflow-hidden flex justify-center items-center "
-      }
-    >
-      <div className="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-0 "></div>
-      <GreenWaveBackGround className="flex  justify-center items-center w-screen" />
+    <div className="dark w-screen h-screen overflow-hidden flex justify-center items-center custom-container">
+      <div className="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-0"></div>
+      <GreenWaveBackGround className="flex justify-center items-center w-screen custom-background" />
       <div
-        className={`absolute z-10 w-[60%] h-[70%] rounded-2xl border-4 border-white ${
+        className={`absolute z-10 w-[60%]  h-[70%] rounded-2xl border-4 border-white ${
           isLightMode ? "bg-green-300" : "Background"
-        }`}
+        } custom-main-container`}
       >
         <div className="flex justify-center items-center flex-col gap-20 py-6">
           <h1
-            className={` text-[40px] font-bold  text-stroke-green ${
+            className={`text-[40px] font-bold text-stroke-green ${
               isLightMode ? "text-black" : "text-white"
-            }`}
+            } custom-title`}
           >
-            <SplitText text=" QUIZLY" delay={300} />
+            <SplitText className="titel" text="QUIZLY" delay={300} />
           </h1>
           <h2
-            className={` font-bold text-[50px] text-stroke-green  leading-2 ${
+            className={`font-bold text-[50px] text-stroke-green leading-2 ${
               isLightMode ? "text-black" : "text-white"
-            }`}
+            } custom-subtitle`}
           >
             Welcome To Quiz App...
           </h2>
-          <div className="flex flex-col justify-center items-center absolute bottom-4">
-            <div className="mb-6">
+          <div className="flex  flex-col justify-center items-center absolute bottom-4 ">
+            <div className="mb-6 ">
               <animated.img
-                className="w-20"
+                className="w-20 custom-rocket"
                 src={rocket}
                 alt="rocket"
                 style={rocketSpring}
@@ -109,18 +105,18 @@ function LoginContent() {
               variant={"outline"}
               size={"lg"}
             >
-              <p className="text-xl font-bold"> GET START</p> 🚀
+              <p className="text-xl font-bold">GET START</p> 🚀
             </Button>
           </div>
         </div>
         <button
           onClick={handelDarkMode}
           className={`w-[43px] h-[43px] rounded-[100%] absolute top-8 right-8 ${
-            isLightMode ? " bg-green-900" : "bg-green-400"
-          }`}
+            isLightMode ? "bg-green-900" : "bg-green-400"
+          } custom-darkmode-button`}
         >
           <img
-            className="translate-x-[50%]"
+            className="translate-x-[50%] img-DarkMode"
             src={IconDarkMode}
             alt="IconDarkMode"
           />
