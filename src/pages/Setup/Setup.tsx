@@ -2,6 +2,7 @@ import { Input, Select } from "@chakra-ui/react";
 import { motion } from "motion/react";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 import IconStart from "../../assets/images/IconStart.png";
 import IconDarkMode from "../../assets/svgs/IconDarkMode.svg";
@@ -9,7 +10,7 @@ import { ThemeContext } from "../../components/DarkProvider/DarkProvider";
 import { MyContext } from "../../components/ModalProvider/ModalProvider";
 import { QuizContext } from "../../components/QuestionsProvider/QuestionsProvider";
 import GreenWaveBackGround from "../../components/base/greenWaveBackGround/greenWaveBackGround";
-import { GetCategory, fetchQuestions } from "../../services/getDataSetup";
+import { fetchQuestions, GetCategory } from "../../services/getDataSetup";
 import "./Setup.css";
 
 export default function Setup() {
@@ -27,6 +28,9 @@ export default function Setup() {
   console.log(countQueiz);
   console.log(categories);
   console.log(difficulty);
+  const QUESTIONS_REGEX_COUNT = /^(?![5-9][0-9]|[1-9][0-9]{2,})\d{1,2}$/;
+  const CATEGOTYANDDEFFICULTY = /^(?!\s*$).+/;
+
   const { dispatch } = useContext<any>(QuizContext);
   useEffect(() => {
     GetCategory().then((res) => setcategories(res));
@@ -40,26 +44,50 @@ export default function Setup() {
     difficulty: selectDifficulty,
   }; //آبجکت تنظیمات آزمون
   const handelOpenModal = (e: any) => {
-    setOpenModal(true);
     e.preventDefault(e);
-    // dispatch({ type: "SET_SETTING", payload: queizSettings });
-    fetchQuestions({ countQueiz, selectCategories, selectDifficulty }) //سوالات رو بر اساس تنظیمات کاربر دریافت میکند
-      .then((res) => {
-        dispatch({ type: "SET_QUESTIONS", payload: res.results });
-        console.log(res); //کنسول از resخالی صرفا هم دیتاهایی که من میخوام و میگیره هم وضعیت کار و status
-      })
-      .finally(() => {
-        Swal.fire({
-          text: "Let's go 😍🫀",
-          showConfirmButton: false,
-          background: " #93C572",
-          color: "white",
-          timer: 2000,
-        }).then(() => {
-          navigate("/questions");
-          console.log(queizSettings);
-        });
+    let isValid = true;
+    if (!QUESTIONS_REGEX_COUNT.test(countQueiz)) {
+      toast.error("Your chosen number must be between 0 and 50", {
+        position: "top-right",
       });
+      isValid = false;
+    }
+    if (!CATEGOTYANDDEFFICULTY.test(selectCategories)) {
+      toast.error("You must select an Categories option"),
+        {
+          position: "top-right",
+        };
+      isValid = false;
+    }
+    if (!CATEGOTYANDDEFFICULTY.test(selectDifficulty)) {
+      toast.error("You must select an Difficulty option"),
+        {
+          position: "top-right",
+        };
+      isValid = false;
+    }
+    if (isValid) {
+      // dispatch({ type: "SET_SETTING", payload: queizSettings });
+      fetchQuestions({ countQueiz, selectCategories, selectDifficulty }) //سوالات رو بر اساس تنظیمات کاربر دریافت میکند
+        .then((res) => {
+          dispatch({ type: "SET_QUESTIONS", payload: res.results });
+          console.log(res); //کنسول از resخالی صرفا هم دیتاهایی که من میخوام و میگیره هم وضعیت کار و status
+        })
+        .finally(() => {
+          Swal.fire({
+            text: "Let's go 😍🫀",
+            showConfirmButton: false,
+            background: " #93C572",
+            color: "white",
+            timer: 2000,
+          }).then(() => {
+            navigate("/questions");
+            console.log(queizSettings);
+          });
+        });
+    } else {
+      setOpenModal(false);
+    }
   };
   return (
     <div
@@ -186,7 +214,6 @@ export default function Setup() {
                 <img className="w-6 h-6" src={IconStart} alt="IconStart" />
               </div>
             </button>
-
             <button
               onClick={handelDarkMode}
               className={`${

@@ -10,7 +10,7 @@ export default function QuestionBox({
   hasAnswerd,
   setHasAnswerd,
 }: any): any {
-  const answers = [question.correct_answer, ...question.incorrect_answers];
+  const answers = [question?.correct_answer, ...question.incorrect_answers];
   console.log(question);
   const ShafelAnwers = () => {
     return answers.sort(() => Math.random() - 0.5);

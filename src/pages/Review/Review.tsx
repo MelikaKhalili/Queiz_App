@@ -2,6 +2,7 @@ import { Button } from "@chakra-ui/react";
 import { useContext, useEffect, useState } from "react";
 import Confetti from "react-confetti";
 import { IoMoon } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
 import { ThemeContext } from "../../components/DarkProvider/DarkProvider";
 import { QuizContext } from "../../components/QuestionsProvider/QuestionsProvider";
 import StarBorder from "../../components/StarBoder/StarBorder";
@@ -14,6 +15,7 @@ export default function Review() {
   const { state } = useContext<any>(QuizContext);
   const { questions, selectedAnswer } = state;
   const [userAnswer, setUserAnswer] = useState<any[]>([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const saveAnswers = localStorage.getItem("selectedAnswer");
@@ -31,6 +33,9 @@ export default function Review() {
     setTimeout(() => {
       setShowConfetti(false);
     }, 5000);
+  };
+  const BackToResultPage = () => {
+    navigate("/results");
   };
 
   return (
@@ -103,7 +108,10 @@ export default function Review() {
         </div>
       </div>
 
-      <div className="flex justify-center items-center mt-8">
+      <div
+        onClick={BackToResultPage}
+        className="flex justify-center items-center mt-8"
+      >
         <StarBorder className=" w-[300px]">Back To Results</StarBorder>
       </div>
     </div>

@@ -1,9 +1,11 @@
+import { ToastContainer } from "react-toastify";
 import "./App.css";
 import { CategoryProvider } from "./components/CategoryProvider/CategoryProvider";
 import DarkProvider from "./components/DarkProvider/DarkProvider";
 import ModalProvider from "./components/ModalProvider/ModalProvider";
 import { QuizProvider } from "./components/QuestionsProvider/QuestionsProvider";
 import RouterApp from "./pages/router/router";
+
 function App() {
   return (
     <div>
@@ -12,6 +14,7 @@ function App() {
           <QuizProvider>
             <CategoryProvider>
               <RouterApp />
+              <ToastContainer />
             </CategoryProvider>
           </QuizProvider>
         </DarkProvider>
