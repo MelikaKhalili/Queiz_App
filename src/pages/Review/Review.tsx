@@ -77,7 +77,7 @@ export default function Review() {
                 <h1 className="text-2xl font-bold text-white">
                   {question.question}
                 </h1>
-                <div className="grid grid-cols-2 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
                   {options.map((option, i) => {
                     let bgColor = "yellow.300";
                     if (userSelected === option) {
@@ -92,9 +92,11 @@ export default function Review() {
 
                     return (
                       <Button
+                        className="Options"
                         color={"white"}
                         bg={bgColor}
                         rounded={"md"}
+                        width={"100%"}
                         key={i}
                       >
                         {option}

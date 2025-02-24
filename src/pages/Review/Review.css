@@ -3,6 +3,10 @@
   margin: 0px;
   box-sizing: border-box;
 }
-m {
-  background-color: green;
+@media (max-width: 360px) {
+  .Options {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 گزینه در یک ردیف */
+    gap: 8px; /* فاصله بین گزینه‌ها */
+  }
 }
