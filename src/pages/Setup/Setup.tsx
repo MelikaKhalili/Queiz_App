@@ -6,11 +6,11 @@ import { toast } from "react-toastify";
 import Swal from "sweetalert2/dist/sweetalert2.js";
 import IconStart from "../../assets/images/IconStart.png";
 import IconDarkMode from "../../assets/svgs/IconDarkMode.svg";
-import GreenWaveBackGround from "../../components/base/greenWaveBackGround/greenWaveBackGround";
 import { ThemeContext } from "../../components/DarkProvider/DarkProvider";
 import { MyContext } from "../../components/ModalProvider/ModalProvider";
 import { QuizContext } from "../../components/QuestionsProvider/QuestionsProvider";
-import { fetchQuestions, GetCategory } from "../../services/getDataSetup";
+import GreenWaveBackGround from "../../components/base/greenWaveBackGround/greenWaveBackGround";
+import { GetCategory, fetchQuestions } from "../../services/getDataSetup";
 import "./Setup.css";
 
 export default function Setup() {
@@ -18,13 +18,13 @@ export default function Setup() {
   const { isLightMode, setIsLightMode } = useContext<any>(ThemeContext);
   const navigate = useNavigate();
   const { setOpenModal } = useContext<any>(MyContext);
-  const [countQueiz, setCountQueiz] = useState(""); //سوالات انتخابی کاربر
-  const [categories, setcategories] = useState<any>([]); //ذخیره دسته بندی ها
+  const [countQueiz, setCountQueiz] = useState("");
+  const [categories, setcategories] = useState<any>([]);
   const [difficulty, setDifficulty] = useState(
     ["Easy", "Medium", "Hard"].map((item) => item.toLocaleLowerCase())
-  ); //ذخیره سطح سختی
-  const [selectDifficulty, setSelectDifficulty] = useState(""); //برای ذخیره مقادیر که توسط کاربر انتخاب میشه
-  const [selectCategories, setSelectCategories] = useState<string>(""); //برای ذخیره مقادیری که کاربر انتخابشون میکنه
+  );
+  const [selectDifficulty, setSelectDifficulty] = useState("");
+  const [selectCategories, setSelectCategories] = useState<string>("");
   console.log(countQueiz);
   console.log(categories);
   console.log(difficulty);
@@ -217,7 +217,7 @@ export default function Setup() {
               className="absolute translate-y-3 translate-x-96 start-quiz-btn"
             >
               <div
-                className={`w-11 h-11 rounded-full flex justify-center items-center absolute start-btn-container ${
+                className={`w-11 h-11 rounded-full flex justify-center items-center absolute left-14 top-4 start-btn-container ${
                   isLightMode ? "bg-green-900" : "bg-green-400"
                 }`}
               >

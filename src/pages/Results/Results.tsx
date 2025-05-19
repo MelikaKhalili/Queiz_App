@@ -11,7 +11,7 @@ import { QuizContext } from "../../components/QuestionsProvider/QuestionsProvide
 import GreenWaveBackGround from "../../components/base/greenWaveBackGround/greenWaveBackGround";
 import "./Results.css";
 // const navigate = useNavigate();
-// const handelAgain = () => {
+// const handelAgain = () => {ل
 //   navigate("/");
 // };
 
